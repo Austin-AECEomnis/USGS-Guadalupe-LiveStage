@@ -1,0 +1,27 @@
+yamlname: Fetch USGS Gauge Data
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests
+      - name: Run gauge script
+        run: python fetch_gauge.py
+      - name: Commit stage data
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add current_stage.json
+          git diff --staged --quiet || git commit -m "Update stage data"
+          git push
