@@ -1,4 +1,4 @@
-yamlname: Fetch USGS Gauge Data
+name: Fetch USGS Gauge Data
 
 on:
   schedule:
