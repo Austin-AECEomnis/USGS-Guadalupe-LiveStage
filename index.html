@@ -2,12 +2,11 @@ html<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="3600">
   <style>
     body {
       margin: 0;
       padding: 12px;
-      background: transparent;
+      background: #1a1a2e;
       font-family: Arial, sans-serif;
       color: #ffffff;
     }
@@ -41,18 +40,28 @@ html<!DOCTYPE html>
 </head>
 <body>
   <div class="label">Guadalupe River Stage</div>
-  <div class="stage"><span id="stage">--</span> <span class="unit">ft</span></div>
+  <div class="stage"><span id="stage">Loading...</span> <span class="unit"></span></div>
   <div class="site" id="site"></div>
   <div class="updated">Updated: <span id="timestamp"></span></div>
 
   <script>
-    fetch('https://austin-aeceomnis.github.io/USGS-Guadalupe-LiveStage/current_stage.json')
-      .then(r => r.json())
-      .then(data => {
-        document.getElementById('stage').textContent = data.stage_ft;
+    var url = 'https://austin-aeceomnis.github.io/USGS-Guadalupe-LiveStage/current_stage.json';
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var data = JSON.parse(xhr.responseText);
+        document.getElementById('stage').textContent = data.stage_ft + ' ft';
         document.getElementById('site').textContent = data.site;
         document.getElementById('timestamp').textContent = data.timestamp;
-      });
+      } else {
+        document.getElementById('stage').textContent = 'Error ' + xhr.status;
+      }
+    };
+    xhr.onerror = function() {
+      document.getElementById('stage').textContent = 'Network error';
+    };
+    xhr.send();
   </script>
 </body>
 </html>
