@@ -3,18 +3,16 @@ import json
 from datetime import datetime
 
 SITE_NUMBER = "08165500"
-
-URL = f"https://waterservices.usgs.gov/nwis/iv/?sites={SITE_NUMBER}&parameterCd=00065&format=json"
+URL = f"https://api.waterdata.usgs.gov/observations/monitoring-locations/{SITE_NUMBER}/observations?parameterCode=00065&period=PT2H&format=json"
 
 def fetch_stage():
     response = requests.get(URL)
     data = response.json()
 
-    time_series = data["value"]["timeSeries"][0]
-    latest = time_series["values"][0]["value"][0]
-
-    stage_ft = latest["value"]
-    timestamp = latest["dateTime"]
+    observations = data["features"][0]["properties"]["observations"]
+    latest = observations[-1]
+    stage_ft = latest["result"]
+    timestamp = latest["phenomenonTime"]
 
     dt = datetime.fromisoformat(timestamp[:-6])
     formatted_time = dt.strftime("%m/%d/%Y %I:%M %p")
