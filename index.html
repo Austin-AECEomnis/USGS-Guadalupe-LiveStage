@@ -1,0 +1,58 @@
+html<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="3600">
+  <style>
+    body {
+      margin: 0;
+      padding: 12px;
+      background: transparent;
+      font-family: Arial, sans-serif;
+      color: #ffffff;
+    }
+    .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.75;
+      margin-bottom: 4px;
+    }
+    .stage {
+      font-size: 36px;
+      font-weight: bold;
+      line-height: 1;
+    }
+    .unit {
+      font-size: 14px;
+      opacity: 0.75;
+    }
+    .site {
+      font-size: 11px;
+      opacity: 0.6;
+      margin-top: 6px;
+    }
+    .updated {
+      font-size: 10px;
+      opacity: 0.5;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="label">Guadalupe River Stage</div>
+  <div class="stage"><span id="stage">--</span> <span class="unit">ft</span></div>
+  <div class="site" id="site"></div>
+  <div class="updated">Updated: <span id="timestamp"></span></div>
+
+  <script>
+    fetch('https://austin-aeceomnis.github.io/USGS-Guadalupe-LiveStage/current_stage.json')
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('stage').textContent = data.stage_ft;
+        document.getElementById('site').textContent = data.site;
+        document.getElementById('timestamp').textContent = data.timestamp;
+      });
+  </script>
+</body>
+</html>
