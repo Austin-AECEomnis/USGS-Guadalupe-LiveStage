@@ -61,7 +61,7 @@
   <div class="updated">Updated: <span id="timestamp"></span></div>
 
   <script>
-    var url = 'https://austin-aeceomnis.github.io/USGS-Guadalupe-LiveStage/current_stage.json';
+    var url = 'https://austin-aeceomnis.github.io/USGS-Guadalupe-LiveStage/current_stage.json?v=' + Date.now();
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.onload = function() {
