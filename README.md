@@ -141,6 +141,8 @@ public repository.
 
 ## 📁 Repository Structure
 USGS-Guadalupe-LiveStage/
+```
+USGS-Guadalupe-LiveStage/
 ├── fetch_gauge.py          # Python script that queries 
 │                           # the USGS Water Services API 
 │                           # and writes the live reading 
@@ -159,6 +161,7 @@ USGS-Guadalupe-LiveStage/
                             # 60-minute cron schedule and 
                             # commits the updated JSON file 
                             # back to the repository
+```
 
 ## 🌡️ Flood Stage Thresholds
 The flood status indicator displayed in the live widget 
