@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="3600">
   <title>Guadalupe River Stage</title>
   <style>
     body {
@@ -23,14 +24,26 @@
       font-weight: bold;
       line-height: 1;
     }
-    .unit {
-      font-size: 14px;
-      opacity: 0.75;
+    .status {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-top: 6px;
     }
+    .normal { background-color: #2e7d32; color: #ffffff; }
+    .elevated { background-color: #f9a825; color: #000000; }
+    .flood { background-color: #c62828; color: #ffffff; }
     .site {
       font-size: 11px;
       opacity: 0.6;
-      margin-top: 6px;
+      margin-top: 8px;
+    }
+    .source {
+      font-size: 10px;
+      opacity: 0.5;
+      margin-top: 2px;
     }
     .updated {
       font-size: 10px;
@@ -41,8 +54,10 @@
 </head>
 <body>
   <div class="label">Guadalupe River Stage</div>
-  <div class="stage"><span id="stage">Loading...</span> <span class="unit"></span></div>
+  <div class="stage"><span id="stage">Loading...</span></div>
+  <div id="status-badge"></div>
   <div class="site" id="site"></div>
+  <div class="source">USGS Site No. 08165500 &nbsp;|&nbsp; USGS Water Data for the Nation</div>
   <div class="updated">Updated: <span id="timestamp"></span></div>
 
   <script>
@@ -52,9 +67,20 @@
     xhr.onload = function() {
       if (xhr.status === 200) {
         var data = JSON.parse(xhr.responseText);
+        var ft = parseFloat(data.stage_ft);
+
         document.getElementById('stage').textContent = data.stage_ft + ' ft';
         document.getElementById('site').textContent = data.site;
         document.getElementById('timestamp').textContent = data.timestamp;
+
+        var badge = document.getElementById('status-badge');
+        if (ft >= 15) {
+          badge.innerHTML = '<span class="status flood">&#9888; Flood Stage</span>';
+        } else if (ft >= 10) {
+          badge.innerHTML = '<span class="status elevated">&#9650; Elevated</span>';
+        } else {
+          badge.innerHTML = '<span class="status normal">&#10003; Normal</span>';
+        }
       } else {
         document.getElementById('stage').textContent = 'Error ' + xhr.status;
       }
