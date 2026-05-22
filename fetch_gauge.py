@@ -11,7 +11,7 @@ def fetch_stage():
     data = response.json()
 
     time_series = data["value"]["timeSeries"][0]
-    latest = time_series["values"][0]["value"][0]
+    latest = time_series["values"][0]["value"][-1]
     stage_ft = latest["value"]
     timestamp = latest["dateTime"]
 
